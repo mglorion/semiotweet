@@ -52,7 +52,7 @@ define the env variables that way since those lines are executed when lauching t
 
 You have to set some variables in yout virtual env.
 First, the "secret key" for the app (needed by Django). You can use [this site](http://www.miniwebtool.com/django-secret-key-generator) to generate one.
-```bashs
+```bash
 $ export SECRET_KEY='someLongStringToImagine'
 ```
 
