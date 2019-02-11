@@ -8,3 +8,5 @@ viewer/migrations/
 *local_settings.py
 *migrations/
 .coverage
+*.credentials
+.idea

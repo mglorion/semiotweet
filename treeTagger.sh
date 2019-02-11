@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+# Install tree tagger
+
 mkdir -p tree-tagger
 cd tree-tagger/
 wget http://www.cis.uni-muenchen.de/%7Eschmid/tools/TreeTagger/data/tagger-scripts.tar.gz

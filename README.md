@@ -2,14 +2,12 @@
 Tweets analysis from politics.
 
 [![Build Status](https://travis-ci.org/jjerphan/semiotweet.svg?branch=master)](https://travis-ci.org/jjerphan/semiotweet)
-[![Dependency Status](https://gemnasium.com/badges/github.com/jjerphan/semiotweet.svg)](https://gemnasium.com/github.com/jjerphan/semiotweet)
 [![Code Climate](https://codeclimate.com/github/jjerphan/semiotweet/badges/gpa.svg)](https://codeclimate.com/github/jjerphan/semiotweet)
 [![Test Coverage](https://codeclimate.com/github/jjerphan/semiotweet/badges/coverage.svg)](https://codeclimate.com/github/jjerphan/semiotweet/coverage)
 [![Issue Count](https://codeclimate.com/github/jjerphan/semiotweet/badges/issue_count.svg)](https://codeclimate.com/github/jjerphan/semiotweet)
 
 
-The project is online [here](http://www.semiotweet.com) !
-<img src="http://www.numerama.com/content/uploads/2017/03/fillon.png" alt = "François Fillon"/>
+**⚠ This project is no longer maintained. ⚠**
 
 ## What's the goal
 
@@ -17,11 +15,7 @@ _Semiotweet_ aims to better understand the tweets posted by politics.
 It shows what are the most commons words in those tweets, and what are the different semantic fields related to them.
 
 
-
-## How it works
-
-Stack is subjects to know changes.
-### Stack :
+## Stack :
  - Django as framework,
  - PostGreSQL for the database,
  - Twitter API as data provider,
@@ -36,56 +30,47 @@ There's two apps called `viewer` and `api`.
 
 `api` is a classic REST API for the website.
 
-The one from `extraction.py` catch the tweets, those in `semanticAnalysis.py` process the analysis.
+The one from `extraction.py` catch the tweets, those in `semantic_analysis.py` process the analysis.
 The analysis is based on *LDA (Latent Dirichlet allocation)*.
 
-
-## UML TO BE UPDATED !
-
-There are three models : `Tweet`, `User` and `LdaModel` :
-![DataBase](UML.png)
-
-Those models may change with new features.
-
-Templates are directly put in `viewer/templates/` and not as usual in `viewer/templates/viewer` as it can be the case in most of Django apps.
+Templates are directly put in `viewer/templates/` and not as usual in `viewer/templates/viewer` as it can be the case in
+ most of Django apps.
 
 ## How to install
 
 ### Virtual environment
 
-Clone it. Go to the folder and :
+Clone it. Go to the folder and create a virtual environment:
 
-```
-# For Python 3.6 or Python 3.x
-$ virtualenv -p /usr/bin/python3 venv3
-$ source venv3/bin/activate
-
-# For Python 2.7
-$ virtualenv venv
+```bash
+$ python -m venv venv
 $ source venv/bin/activate
 ```
 
-#### In the following, all the `export` lines can be put at the end of the file /venv3/bin/activate`. It is easier to define the env variables that way since those lines are executed when lauching the venv.
+**In the following, all the `export` lines can be put at the end of the file /venv3/bin/activate`. It is easier to 
+define the env variables that way since those lines are executed when lauching the venv.**
 
 You have to set some variables in yout virtual env.
-First the "secret key" for the app (needed by Django). You can use [this site](http://www.miniwebtool.com/django-secret-key-generator) to generate one.
-```
+First, the "secret key" for the app (needed by Django). You can use [this site](http://www.miniwebtool.com/django-secret-key-generator) to generate one.
+```bash
 $ export SECRET_KEY='someLongStringToImagine'
 ```
 
 ### TreeTagger
 
-_TreeTagger_ is one of the main library used for the project. You have to install it with the french parameter file in your home directory by refering to the official docummentation (see [here](http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/))
+_TreeTagger_ is one of the main library used for the project. You have to install it with the french parameter file in
+your home directory by refering to the official docummentation (see [here](http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/))
 
 You have to specify the folder in which you install _TreeTagger_ with the `LOCALTAGDIR` variable :
-```
+```bash
 $ export LOCALTAGDIR='/path/to/tree-tagger/'
 ```
 
 ### Credentials for Twitter API
 Then the credentials (for user and consumer)for your app in order to use Twitter API.
-In order to have those string, you need to create a Twitter App (see [here](https://apps.twitter.com/app/13440041/show)) ; then you can copy-paste them to set them in your virtual env.
-```
+In order to have those string, you need to create a Twitter App (see [here](https://apps.twitter.com/app/13440041/show))
+ ; then you can copy-paste them to set them in your virtual env.
+```bash
 $ export CONSUMER_KEY='someLongStringToImagine'
 $ export CONSUMER_SECRET='someLongStringToImagine'
 $ export KEY='someLongStringToImagine'
@@ -94,7 +79,7 @@ $ export SECRET='someLongStringToImagine'
 
 ### Requirements
 Then install the requirements
-```
+```bash
 $ pip install -r requirements.txt
 ```
 If you have the error `pg_config not found` just install the `libpq_dev` package.
@@ -102,14 +87,15 @@ If you have the error `could not run curl-config` install the `libcurl4-openssl-
 Then re-install the requirements
 
 
-You have to create a `local_settings.py` in the same folder as `setting.py` in order to extend this file (see the end of `setting.py`) ; this is useful for managing different
+You have to create a `local_settings.py` in the same folder as `setting.py` in order to extend this file (see the end of
+ `setting.py`) ; this is useful for managing different
 data base between local development and deployement :
-```
+```bash
 $ touch local_settings.py
 ```
 In this file are the settings set to use the local database (`DEBUG` is set to True for dev', false for production.) :
 
-```
+```python
 # Local settings : used for local development.
 from __future__ import absolute_import
 from .settings import PROJECT_ROOT, BASE_DIR
@@ -126,42 +112,36 @@ DATABASES = {
 
 ```
 Then you have to run this in order to set up the models and the database :
-```
+```bash
 $ python manage.py makemigrations
 $ python manage.py makemigrations viewer
 $ python manage.py migrate
 ```
-Finally, `$ python manage.py runserver` runs the server locally.
+
+Finally, to run the server locally:
+```bash
+$ python manage.py runserver
+```
 
 ## Getting users data and tweets
 
-Once the server is running, you can extact the data concerning the users and their tweets using the api : `http://127.0.0.1:8000/api/v1.0/getData/`
+Once the server is running, you can extact the data concerning the users and their tweets using the api:
 
-## Project Progress
-
-| Things done                                                         | Things to do                  |
-| -------------                                                       | -------------                 |
-| Connection to Twitter API (100%)                                    |  Semantic fields (80%)        |
-| Basic architecture (100%)                                           | JS libraries (90 %)           |
-| Defining models (100%)                                              | README.md (60%)               |
-| Defining Env' Variables (100%)                                      |                |
-| Extracting user info (100%)                                         ||
-| Extracting old tweets (100%)                                        ||
-| Extracting latest tweets (100%)                                     ||
-| Modular code for extraction (100%)                                  ||
-| Getting all the users at once (100%)                                ||
-| Extract new tweet (100%)                                            || |
-| Deployement on Heroku (100%)                                        || |
+[`http://127.0.0.1:8000/api/v1.0/getData/`](`http://127.0.0.1:8000/api/v1.0/getData/`)
 
 
 ## Usefull Ressources
 
   - Logo from [graphicdesignblg](https://www.instagram.com/graphicdesignblg/ "graphicdesignblg on Instagram")
   - [Twitter API documentation](https://dev.twitter.com/ "Twitter API documentation")
-  - [Map of a Twitter Status Object](http://www.slaw.ca/wp-content/uploads/2011/11/map-of-a-tweet-copy.pdf "Map of a Twitter Status"), Raffi Krikorian
-  - Marco Bonzanini, [Mining Twitter Data with Python](https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/ "Mining Twitter Data with Python")
-  - [Migrating Your Django Project to Heroku](https://realpython.com/blog/python/migrating-your-django-project-to-heroku/ "Migrating Your Django Project to Heroku")
-  - [TreeTagger](http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/) for the tagging, tokenization and lemmatization of french documents
+  - [Map of a Twitter Status Object](http://www.slaw.ca/wp-content/uploads/2011/11/map-of-a-tweet-copy.pdf
+  "Map of a Twitter Status"), Raffi Krikorian
+  - Marco Bonzanini, [Mining Twitter Data with Python](https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/
+  "Mining Twitter Data with Python")
+  - [Migrating Your Django Project to Heroku](https://realpython.com/blog/python/migrating-your-django-project-to-heroku/
+  "Migrating Your Django Project to Heroku")
+  - [TreeTagger](http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/) for the tagging, tokenization and
+  lemmatization of french documents
 
 ## License
   This project is under [GNU General Public License (Version 3, 29 June 2007)](https://github.com/jjerphan/semiotweet/blob/master/LICENSE).
